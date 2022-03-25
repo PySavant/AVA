@@ -13,7 +13,7 @@ rate = 16000
 # Record audio from the microphone
 print('Recording Now...')
 
-_raw = microphone.record(
+_raw = microphone.rec(
     int(duration * rate),
     samplerate=rate,
     channels=1,
@@ -28,7 +28,9 @@ print('Finished Recording')
 # Load Recongition Software
 
 if not os.path.exists("model"):
-    return print('Please download a model from https://alphacephei.com/vosk/models')
+    print('Please download a model from https://alphacephei.com/vosk/models')
+    exit(1)
+
 
 model = Model("model")
 engine = KaldiRecognizer(model, 16000)
