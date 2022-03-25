@@ -1,7 +1,10 @@
+import os
+
 import wave as wav
 import sounddevice as microphone
 
 from vosk import Model, KaldiRecognizer
+from scipy.io import wavfile
 
 
 # Set duration to 5 seconds
@@ -20,7 +23,9 @@ _raw = microphone.rec(
     dtype='int16'
 )
 
-raw = wav.open(_wav, 'rb')
+microphone.wait()
+
+wavfile.write('activity.wav', 16000, _raw)
 
 print('Finished Recording')
 
@@ -37,6 +42,7 @@ engine = KaldiRecognizer(model, 16000)
 engine.setWords(True)
 
 # Read the File and print results
+raw = wav.open('activity.wav', 'rb')
 
 while True:
     data = raw.readframes(4000)
