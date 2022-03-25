@@ -39,7 +39,7 @@ if not os.path.exists("model"):
 
 model = Model("model")
 engine = KaldiRecognizer(model, 16000)
-engine.setWords(True)
+engine.SetWords(True)
 
 # Read the File and print results
 raw = wav.open('activity.wav', 'rb')
