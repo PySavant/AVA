@@ -1,10 +1,14 @@
 import os
+import json
 
 import wave as wav
 import sounddevice as microphone
 
-from vosk import Model, KaldiRecognizer
 from scipy.io import wavfile
+from vosk import SetLogLevel
+from vosk import Model, KaldiRecognizer
+
+SetLogLevel(-1)
 
 
 # Set duration to 5 seconds
@@ -41,6 +45,7 @@ model = Model("model")
 engine = KaldiRecognizer(model, 16000)
 engine.SetWords(True)
 
+
 # Read the File and print results
 raw = wav.open('activity.wav', 'rb')
 
@@ -50,8 +55,7 @@ while True:
     if len(data) == 0:
         break
     if engine.AcceptWaveform(data):
-        print(engine.result())
+        result = json.loads(engine.Result())
+        print(result['text'])
     else:
-        print(engine.PartialResult())
-
-print(engine.FinalResult())
+        pass
