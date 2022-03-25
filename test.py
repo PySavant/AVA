@@ -49,7 +49,7 @@ while True:
 
     if len(data) == 0:
         break
-    if engine.AcceptWaveForm(data):
+    if engine.AcceptWaveform(data):
         print(engine.result())
     else:
         print(engine.PartialResult())
