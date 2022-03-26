@@ -4,6 +4,7 @@ import json
 import wave as wav
 import sounddevice as microphone
 
+from io import BytesIO
 from scipy.io import wavfile
 from vosk import SetLogLevel
 from vosk import Model, KaldiRecognizer
@@ -29,7 +30,8 @@ _raw = microphone.rec(
 
 microphone.wait()
 
-wavfile.write('activity.wav', 16000, _raw)
+_wav = BytesIO(bytes())
+wavfile.write(_wav, 16000, _raw)
 
 print('Finished Recording')
 
@@ -46,8 +48,7 @@ engine = KaldiRecognizer(model, 16000)
 engine.SetWords(True)
 
 
-# Read the File and print results
-raw = wav.open('activity.wav', 'rb')
+raw = wav.open(_wav, 'rb')
 
 while True:
     data = raw.readframes(4000)
