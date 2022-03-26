@@ -57,6 +57,9 @@ while True:
         break
     if engine.AcceptWaveform(data):
         result = json.loads(engine.Result())
-        print(result['text'])
+        if len(result['text']) == 0:
+            print('No Voice Activity Detected')
+        else:
+            print(result['text'])
     else:
         pass
