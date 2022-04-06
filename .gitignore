@@ -1,6 +1,5 @@
-model/*
-development/*
-production/*
-data/*
+utils/data/*
+utils/models/*
 
 *.wav
+*.pyc
