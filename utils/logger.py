@@ -33,12 +33,13 @@ class LoggerModule():
         init()
 
         self.level = level
+        self.path = path
 
-        directory = abspath(__file__).replace('logger.py', 'data/')
+        directory = abspath(__file__).replace('logger.py', 'data/logs/')
         self.logs = { key: directory + key for key in [path, 'errors'] }
 
     def _write(self, message: str, *, error: bool = False) -> None:
-        with open(self.logs['events'], 'a+') as log:
+        with open(self.logs[self.path], 'a+') as log:
             log.write(message)
 
         if error:
@@ -60,7 +61,7 @@ class LoggerModule():
         timestamp = self._getTimeStamp()
 
         file_output = f"[TRACE] {timestamp} ({locale}) --> {message} \n"
-        color_output = f"{Fore.CYAN}[TRACE]{Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
+        color_output = f"{Fore.CYAN}   [TRACE] {Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
 
         self._write(file_output)
         self._output(0, message=color_output)
@@ -69,7 +70,7 @@ class LoggerModule():
         timestamp = self._getTimeStamp()
 
         file_output = f"[DEBUG] {timestamp} ({locale}) --> {message} \n"
-        color_output = f"{Fore.GREEN}[DEBUG]{Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
+        color_output = f"{Fore.GREEN}   [DEBUG] {Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
 
         self._write(file_output)
         self._output(1, message=color_output)
@@ -77,8 +78,8 @@ class LoggerModule():
     def info(self, locale: str, message: str) -> None:
         timestamp = self._getTimeStamp()
 
-        file_output = f"[INFO] {timestamp} ({locale}) --> {message} \n"
-        color_output = f"{Fore.BLUE}[INFO]{Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
+        file_output = f"[INFO]    {timestamp} ({locale}) --> {message} \n"
+        color_output = f"{Fore.BLUE}    [INFO] {Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
 
         self._write(file_output)
         self._output(2, message=color_output)
@@ -87,7 +88,7 @@ class LoggerModule():
         timestamp = self._getTimeStamp()
 
         file_output = f"[WARNING] {timestamp} ({locale}) --> {message} \n"
-        color_output = f"{Fore.MAGENTA}[WARNING]{Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
+        color_output = f"{Fore.MAGENTA} [WARNING] {Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
 
         self._write(file_output, error=True)
         self._output(3, message=color_output)
@@ -95,8 +96,8 @@ class LoggerModule():
     def error(self, locale: str, message: str) -> None:
         timestamp = self._getTimeStamp()
 
-        file_output = f"[ERROR] {timestamp} ({locale}) --> {message} \n"
-        color_output = f"{Fore.YELLOW}[ERROR]{Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
+        file_output = f"  [ERROR]  {timestamp} ({locale}) --> {message} \n"
+        color_output = f"{Fore.YELLOW}   [ERROR] {Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
 
         self._write(file_output, error=True)
         self._output(4, message=color_output)
@@ -105,7 +106,7 @@ class LoggerModule():
         timestamp = self._getTimeStamp()
 
         file_output = f"[CRITICAL] {timestamp} ({locale}) --> {message} \n"
-        color_output = f"{Fore.RED}[CRITICAL]{Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
+        color_output = f"{Fore.RED}[CRITICAL] {Style.RESET_ALL} {timestamp} ({locale}) --> {message}"
 
         self._write(file_output, error=True)
         self._output(5, message=color_output)
